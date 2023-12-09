@@ -6,9 +6,15 @@ defmodule App do
       SensorHistory.parse(line)
     end
 
-    for history <- histories do
+    result_a = for history <- histories do
+      SensorHistory.predict_next_value(history)
+    end |> Enum.sum()
+
+    result_b = for history <- histories do
       SensorHistory.predict_previous_value(history)
     end |> Enum.sum()
+
+    %{result_a: result_a, result_b: result_b}
   end
 end
 
